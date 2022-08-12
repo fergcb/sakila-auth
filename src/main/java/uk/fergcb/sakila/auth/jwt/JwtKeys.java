@@ -14,7 +14,7 @@ public class JwtKeys {
         try {
             encoded = Dotenv.configure().load().get(VAR_NAME);
         } catch (DotenvException ex) {
-            encoded = System.getenv(VAR_NAME);
+            encoded = System.getProperty(VAR_NAME);
         }
         byte[] decoded = Decoders.BASE64.decode(encoded);
         return Keys.hmacShaKeyFor(decoded);
