@@ -11,9 +11,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 public class OptionsController {
-
-    private static class Options extends RepresentationModel<Options> {}
-
     @RequestMapping(
         method = {
             RequestMethod.OPTIONS,
