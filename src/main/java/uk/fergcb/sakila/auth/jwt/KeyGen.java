@@ -4,12 +4,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 
-import javax.crypto.SecretKey;
+import java.security.KeyPair;
 
 public class KeyGen {
     public static void main(String[] args) {
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-        String secret = Encoders.BASE64.encode(key.getEncoded());
-        System.out.println(secret);
+        KeyPair keys = Keys.keyPairFor(SignatureAlgorithm.RS512);
+        String publicKey = "public," + Encoders.BASE64.encode(keys.getPublic().getEncoded());
+        String privateKey = "private," + Encoders.BASE64.encode(keys.getPrivate().getEncoded());
+        System.out.println(publicKey + "\n" + privateKey);
     }
 }
