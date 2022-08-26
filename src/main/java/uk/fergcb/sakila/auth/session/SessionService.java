@@ -55,7 +55,7 @@ public class SessionService implements ISessionService {
         Session session = Session.create(refreshToken, user.getUserId());
         sessionRepository.save(session);
 
-        return new SessionDetailsDTO(accessToken, refreshToken);
+        return new SessionDetailsDTO(user.getUserId(), accessToken, refreshToken);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SessionService implements ISessionService {
         session.setRefreshToken(refreshToken);
         sessionRepository.save(session);
 
-        return new SessionDetailsDTO(accessToken, refreshToken);
+        return new SessionDetailsDTO(user.getUserId(), accessToken, refreshToken);
     }
 
     @Override
