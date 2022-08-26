@@ -1,7 +1,9 @@
 package uk.fergcb.sakila.auth.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import uk.fergcb.sakila.auth.encryption.HashingStrategy;
 
 @Component
@@ -14,6 +16,12 @@ public class UserService implements IUserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public User getUser(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exists with that id."));
     }
 
     @Override

@@ -21,6 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/userinfo/{userId}")
+    public ResponseEntity<User> getUserInfo(@PathVariable String userId) {
+        User user = userService.getUser(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<Void> createUser(@RequestBody CredentialsDTO data) {
         userService.createUser(data);
