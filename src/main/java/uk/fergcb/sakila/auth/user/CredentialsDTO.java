@@ -1,6 +1,7 @@
 package uk.fergcb.sakila.auth.user;
 
 public class CredentialsDTO {
+
     private String username;
     private String password;
 

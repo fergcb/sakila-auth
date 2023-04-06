@@ -6,6 +6,9 @@ import io.jsonwebtoken.security.Keys;
 
 import java.security.KeyPair;
 
+/**
+ * Helper to generate a new set of keys for password encoding/decoding
+ */
 public class KeyGen {
     public static void main(String[] args) {
         KeyPair keys = Keys.keyPairFor(SignatureAlgorithm.RS512);

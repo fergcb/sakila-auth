@@ -16,15 +16,13 @@ import uk.fergcb.sakila.auth.user.UserRepository;
 
 @Component
 public class SessionService implements ISessionService {
-    @Autowired
+
     private final SessionRepository sessionRepository;
-
-    @Autowired
     private final UserRepository userRepository;
-
     private final JwtGenerator jwtGenerator;
     private final JwtValidator jwtValidator;
 
+    @Autowired
     public SessionService(SessionRepository sessionRepository, UserRepository userRepository, JwtGenerator jwtGenerator, JwtValidator jwtValidator) {
         this.sessionRepository = sessionRepository;
         this.userRepository = userRepository;
@@ -60,10 +58,10 @@ public class SessionService implements ISessionService {
 
     @Override
     public SessionDetailsDTO refreshSession(SessionDetailsDTO sessionDetails) {
-        Session session = sessionRepository.findByRefreshToken(sessionDetails.getRefreshToken())
+        final Session session = sessionRepository.findByRefreshToken(sessionDetails.getRefreshToken())
                 .orElseThrow(() -> new InvalidTokenException("refreshToken"));
 
-        User user = session.getUser();
+        final User user = session.getUser();
 
         boolean valid;
         try {
@@ -72,9 +70,7 @@ public class SessionService implements ISessionService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Could not validate access token.");
         }
 
-        if (!valid) {
-            throw new InvalidTokenException("refreshToken");
-        }
+        if (!valid) throw new InvalidTokenException("refreshToken");
 
         final String accessToken = jwtGenerator.generateAccessToken(user);
         final String refreshToken = jwtGenerator.generateRefreshToken(user);
@@ -88,6 +84,7 @@ public class SessionService implements ISessionService {
     @Override
     public User validateSession(SessionDetailsDTO sessionDetails) {
         final String accessToken = sessionDetails.getAccessToken();
+
         try {
             final String userId = jwtValidator.getSubject(accessToken);
             final User user = userRepository.findById(userId)

@@ -11,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @Column(name = "user_id")
     private String userId;

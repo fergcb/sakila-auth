@@ -14,6 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
+
     @Autowired
     private final SessionService sessionService;
 
@@ -23,33 +24,34 @@ public class SessionController {
 
     @PostMapping("/login")
     public ResponseEntity<SessionDetailsDTO> createSession(@RequestBody CredentialsDTO credentials) {
-        SessionDetailsDTO tokens = sessionService.createSession(credentials);
-
+        final SessionDetailsDTO tokens = sessionService.createSession(credentials);
         return ResponseEntity.status(HttpStatus.CREATED).body(tokens);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<SessionDetailsDTO> refreshSession(@RequestBody SessionDetailsDTO sessionDetails) {
-        SessionDetailsDTO tokens = sessionService.refreshSession(sessionDetails);
-
+        final SessionDetailsDTO tokens = sessionService.refreshSession(sessionDetails);
         return ResponseEntity.ok(tokens);
     }
 
     @PostMapping("/validate")
     public ResponseEntity<User> validateSession(@RequestBody SessionDetailsDTO sessionDetailsDTO) {
-        User user = sessionService.validateSession(sessionDetailsDTO);
-
+        final User user = sessionService.validateSession(sessionDetailsDTO);
         return ResponseEntity.ok(user);
     }
 
     @RequestMapping(method = {RequestMethod.OPTIONS, RequestMethod.GET})
     public ResponseEntity<Options> getOptions() {
-        Options options = new Options();
+       final Options options = new Options();
 
-        options.add(linkTo(SessionController.class).withSelfRel().expand());
-        options.add(linkTo(methodOn(SessionController.class).createSession(null)).withRel("login").expand());
-        options.add(linkTo(methodOn(SessionController.class).refreshSession(null)).withRel("refresh").expand());
-        options.add(linkTo(methodOn(SessionController.class).validateSession(null)).withRel("validate").expand());
+        options.add(
+                linkTo(SessionController.class).withSelfRel().expand());
+        options.add(linkTo(
+                methodOn(SessionController.class).createSession(null)).withRel("login").expand());
+        options.add(linkTo(
+                methodOn(SessionController.class).refreshSession(null)).withRel("refresh").expand());
+        options.add(linkTo(
+                methodOn(SessionController.class).validateSession(null)).withRel("validate").expand());
 
         return ResponseEntity.ok(options);
     }

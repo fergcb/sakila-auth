@@ -11,7 +11,7 @@ import java.util.Base64;
 public class SHA512HashingStrategy extends HashingStrategy {
     @Override
     public String hash(String password) {
-        SecureRandom random = new SecureRandom();
+        final SecureRandom random = new SecureRandom();
         final byte[] salt = new byte[16];
         random.nextBytes(salt);
 
@@ -20,7 +20,7 @@ public class SHA512HashingStrategy extends HashingStrategy {
 
     @Override
     protected String hash(String password, byte[] salt) {
-        MessageDigest md = null;
+        MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e) {
@@ -38,14 +38,14 @@ public class SHA512HashingStrategy extends HashingStrategy {
 
     @Override
     public boolean validate(String value, String trustedHash) {
-        String[] parts = StringUtils.split(trustedHash, ".");
+        final String[] parts = StringUtils.split(trustedHash, ".");
         if (parts == null || parts.length != 2) {
             throw new IllegalArgumentException("Trusted hash is malformed.");
         }
-        String encodedSalt = parts[0];
 
-        byte[] salt = Base64.getDecoder().decode(encodedSalt);
-        String hashedValue = hash(value, salt);
+        final String encodedSalt = parts[0];
+        final byte[] salt = Base64.getDecoder().decode(encodedSalt);
+        final String hashedValue = hash(value, salt);
 
         return hashedValue.equals(trustedHash);
     }

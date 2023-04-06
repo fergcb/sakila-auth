@@ -9,11 +9,11 @@ import uk.fergcb.sakila.auth.encryption.HashingStrategy;
 @Component
 public class UserService implements IUserService {
 
-    private static final String HASHING_STRATEGY = "SHA512";
+    private static final String HASHING_STRATEGY = HashingStrategy.SHA512;
 
-    @Autowired
     private final UserRepository userRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,13 +27,11 @@ public class UserService implements IUserService {
     @Override
     public void createUser(CredentialsDTO data) {
         final String username = data.getUsername();
-
         final String password = data.getPassword();
         final String passwordHash = HashingStrategy.get(HASHING_STRATEGY).hash(password);
-
         final String group = "USER";
 
-        User user = User.create(username, passwordHash, HASHING_STRATEGY, group);
+        final User user = User.create(username, passwordHash, HASHING_STRATEGY, group);
         userRepository.save(user);
     }
 }

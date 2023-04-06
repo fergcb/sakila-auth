@@ -1,15 +1,14 @@
 package uk.fergcb.sakila.auth.session;
 
-import org.springframework.hateoas.Link;
 import uk.fergcb.sakila.auth.user.UserController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 public class SessionDetailsDTO {
+
     private final String userId;
     private String accessToken;
     private String refreshToken;
@@ -38,7 +37,10 @@ public class SessionDetailsDTO {
 
     public Map<String, Link> get_links() {
         return Map.of(
-                "userinfo", new Link(linkTo(methodOn(UserController.class).getUserInfo(userId)).withRel("userinfo").getHref())
+                "userinfo", new Link(
+                        linkTo(methodOn(UserController.class).getUserInfo(userId))
+                                .withRel("userinfo")
+                                .getHref())
         );
     }
 

@@ -33,20 +33,34 @@ public class JwtGenerator {
                 .compact();
     }
 
+    /**
+     * Generate a signed JWT with a given subject and lifetime, but no payload
+     * @param subject An identifier of the subject of the JWT (e.g. the user)
+     * @param maxLifetime Time in milliseconds after which the JWT should expire
+     * @return The generated JWS
+     */
     public String generate(String subject, long maxLifetime) {
         return generate(subject, maxLifetime, new HashMap<>());
     }
 
+    /**
+     * Generate an access token JWS for a given user
+     * @param user The user for which to provision an access token
+     * @return The access token JWS
+     */
     public String generateAccessToken(User user) {
         return generate(
                 user.getUserId(),
                 ACCESS_TOKEN_MAX_LIFETIME,
-                Map.of(
-                        "group", user.getGroup()
-                )
+                Map.of("group", user.getGroup())
         );
     }
 
+    /**
+     * Generate a refresh token JWS for a given user
+     * @param user The user for which to provision a refresh token
+     * @return The refresh token JWS
+     */
     public String generateRefreshToken(User user) {
         return generate(
                 user.getUserId(),

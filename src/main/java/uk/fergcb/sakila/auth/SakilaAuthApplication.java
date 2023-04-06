@@ -19,7 +19,10 @@ public class SakilaAuthApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("https://sakila.fergcb.uk/");
+						.allowedOrigins("https://sakila.fergcb.uk/")
+						.allowCredentials(true)
+						.allowedMethods("*")
+						.maxAge(3600);
 			}
 		};
 	}

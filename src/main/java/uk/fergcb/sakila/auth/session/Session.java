@@ -8,6 +8,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "session")
 public class Session {
+
     @Id
     @Column(name = "session_id")
     private String sessionId;
@@ -31,7 +32,7 @@ public class Session {
     public Session() {}
 
     public static Session create(String refreshToken, String userId) {
-        String sessionId = UUID.randomUUID().toString();
+        final String sessionId = UUID.randomUUID().toString();
         return new Session(sessionId, refreshToken, userId);
     }
 

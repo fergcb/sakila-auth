@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.fergcb.sakila.auth.Options;
-import uk.fergcb.sakila.auth.session.SessionController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,21 +22,19 @@ public class UserController {
 
     @GetMapping("/userinfo/{userId}")
     public ResponseEntity<User> getUserInfo(@PathVariable String userId) {
-        User user = userService.getUser(userId);
-
+        final User user = userService.getUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<Void> createUser(@RequestBody CredentialsDTO data) {
         userService.createUser(data);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @RequestMapping(method = {RequestMethod.OPTIONS, RequestMethod.GET})
     public ResponseEntity<Options> getOptions() {
-        Options options = new Options();
+        final Options options = new Options();
 
         options.add(linkTo(UserController.class).withSelfRel().expand());
         options.add(linkTo(methodOn(UserController.class).createUser(null)).withRel("signup").expand());

@@ -11,12 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 public class OptionsController {
-    @RequestMapping(
-        method = {
-            RequestMethod.OPTIONS,
-            RequestMethod.GET
-        }
-    )
+
+    @RequestMapping(method = { RequestMethod.OPTIONS, RequestMethod.GET })
     public Options getOptions() {
         Options options = new Options();
 
@@ -25,4 +21,5 @@ public class OptionsController {
 
         return options;
     }
+
 }

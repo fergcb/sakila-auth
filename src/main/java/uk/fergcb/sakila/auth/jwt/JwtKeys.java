@@ -8,7 +8,9 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
 public class JwtKeys {
+
     private static final String VAR_NAME = "JWT_PRIVATE_KEY";
+
     protected static Key getPrivateKey() {
         String encoded;
         try {
@@ -16,7 +18,9 @@ public class JwtKeys {
         } catch (DotenvException ex) {
             encoded = System.getenv(VAR_NAME);
         }
-        byte[] decoded = Decoders.BASE64.decode(encoded);
+
+        final byte[] decoded = Decoders.BASE64.decode(encoded);
+
         return Keys.hmacShaKeyFor(decoded);
     }
 }
